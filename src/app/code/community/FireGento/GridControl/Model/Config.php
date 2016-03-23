@@ -15,6 +15,7 @@ class FireGento_GridControl_Model_Config extends Varien_Object
     const TYPE_JOIN_FIELD = 'joinField';
     const TYPE_JOIN_ATTRIBUTE = 'joinAttribute';
     const TYPE_JOIN = 'join';
+    const TYPE_WHERE = 'where';
 
     /**
      * stores collection updates

@@ -116,6 +116,8 @@ class FireGento_GridControl_Model_Processor
                         continue;
                     }
                 }
+            } else if ($attribute->getName() == 'where') {
+                $config->addCollectionUpdate(FireGento_GridControl_Model_Config::TYPE_WHERE, $blockId, $attribute[0]);
             }
 
             if (count($attribute->children())) {
