@@ -105,6 +105,10 @@ class FireGento_GridControl_Model_Observer
                 }
             }
 
+            foreach ($config->getCollectionUpdates(FireGento_GridControl_Model_Config::TYPE_WHERE, $blockId) as $condition) {
+                $event->getCollection()->getSelect()->where($condition);
+            }
+
             // update index from join_index (needed for joins)
             foreach (Mage::registry('firegento_gridcontrol_current_block')->getColumns() as $column) {
                 if (isset($columnJoinField[$column->getId()])) {
