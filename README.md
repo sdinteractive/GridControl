@@ -1,77 +1,37 @@
-GridControl
-===========
+#GridControl
 
-Members
--------
-Ralf, Ronald, Marten, Bastian
+Upstream has been abandoned so SD is maintaining this fork as this is still our preferred solution for updating admin grids.
 
-Features
---------
-- add columns
-- remove columns
-- change columns
-- move columns
-- add new attributes
-- join new attributes
+### Features
+- Add columns
+- Remove columns
+- Change columns
+- Move columns
+- Add new attributes
+- Join new attributes
 
-Todo
------
-- role based grid layout
-- configuration GUI (?)
+### Usage
+First install this module. Next, create a separate module. Initially, you really only need one file which should be named, gridcontrol.xml and should be stored in the the etc folder. Eventually, you main wind up needing to create additional files such as renderers or models to fetch option arrays.
 
-XML Syntax
-----------
-`gridcontrol.xml` in module etc folder:
+### XML Syntax
+Refer to `app/code/community/FireGento/GridControl/etc/gridcontrol.xml.dist` for sample XML
 
-``````xml
-<?xml version="1.0"?>
-<gridcontrol>
-    <grids>
-        <product.grid>
-            <entity_id>
-                <remove/>
-            </entity_id>
+### Add strategies
 
-            <sku>
-                <after>name</after>
-            </sku>
-        </product.grid>
+There are several strategies that can be employed for adding columns to a grid. You can view how these strategies are implemented in `FireGento_GridControl_Model_Observer::eavCollectionAbstractLoadBefore()`
 
-        <gridname>
-            <column>
-                <remove/>
+##### `<index>`
+The value in contained in the `<index>` node will be passed to `$event->getCollection()->addAttributeToSelect()`
 
-                <after>columnname</after>
+##### `<joinAttribute>`
+Expects 5 pipe delimited arguments which will be passed to `$event->getCollection()->joinAttribute()`
 
-                <add>
-                    <header>Column Title</header>
-                    <type>text</type>
-                    <index>qty</index>
-                    <!--<joinAttribute>status|catalog_product/status|entity_id||inner</joinAttribute>-->
-                    <joinField>qty|cataloginventory/stock_item|qty|product_id=entity_id|{{table}}.stock_id=1|left</joinField>
-                </add>
-            </column>
+##### `<joinField>`
+Expects 6 pipe delimited arguments which will be passed to `$event->getCollection()->joinField()`
 
-            <selecttest>
-                <add>
-                    <header>Status Column</header>
-                    <type>options</type>
-                    <options>
-                        <option_a>
-                            <key>1</key>
-                            <value>Active</value>
-                        </option_a>
+##### `<join>`
+Expects an XML node with a `table`, `condition` and `field` attribute, which will be passed to `$event->getCollection()->join()`. `{{table}}` will be replaced with the actual table name. It's a mess how this is in no way consistent with the others. This was inherited from upstream.
 
-                        <option_b>
-                            <key>2</key>
-                            <value>Inactive</value>
-                        </option_b>
-                    </options>
-                    <index>status</index>
-                </add>
-                <after>column</after>
-            </selecttest>
-        </gridname>
-    </grids>
-</gridcontrol>
-``````
+### Todo
+- Configuration GUI (or just a system config that takes arbitrary XML and is merged with the modules gridcontrol.xml files?)
+
