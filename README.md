@@ -22,6 +22,7 @@ There are several strategies that can be employed for adding columns to a grid. 
 
 ##### `<index>`
 The value in contained in the `<index>` node will be passed to `$event->getCollection()->addAttributeToSelect()`
+Necessary for proper filtering and sort. 
 
 ##### `<joinAttribute>`
 Expects 5 pipe delimited arguments which will be passed to `$event->getCollection()->joinAttribute()`
